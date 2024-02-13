@@ -4,11 +4,11 @@ module Control(
 
 input 
     clock, 
-    reset;
+    reset,
 
 input wire [5:0] 
     Opcode, 
-    Funct;
+    Funct,
 
 output reg
     WriteCond,
@@ -28,7 +28,7 @@ output reg
     LOCtrl,
     WriteHI,
     WriteLO,
-    MDRCtrl;
+    MDRCtrl,
 
 input wire
     DivDone,
@@ -39,13 +39,13 @@ input wire
     Zero,
     EQ,
     GT,
-    LT;
+    LT,
 
 output reg [1:0]
     LSControl,
     SSControl,
     ExceptionCtrl,
-    AluSrcA;
+    AluSrcA,
 
 output reg [2:0]
     AluSrcB,
@@ -53,15 +53,15 @@ output reg [2:0]
     PCSource,
     IorD,
     ShiftCtrl,
-    RegDst;
+    RegDst,
 
 output reg [3:0]
-    MemToReg;
+    MemToReg,
 
 output reg [6:0]
-    estado;
+    estado
 
-) 
+);
 
 //state parameters (no formato STATE or INSTRUCAO+clk+NUM)
 parameter FETCH = 7'b0000000;
@@ -1357,7 +1357,7 @@ always @(posedge clock) begin
 								BREAK: begin
                                     //Alteradas
                                         PCWrite = 1'b1;
-                                        AluSrcB = 3'b0001;
+                                        AluSrcB = 4'b0001;
                                         AluOp = 3'b010;
 									    PCSource = 3'b001;
 					                //Inalteradas
