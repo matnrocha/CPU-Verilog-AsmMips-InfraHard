@@ -1,0 +1,163 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000001dc4ac6bc30 .scope module, "MuxMemToReg" "MuxMemToReg" 2 1;
+ .timescale 0 0;
+    .port_info 0 /INPUT 32 "LT";
+    .port_info 1 /INPUT 32 "Load";
+    .port_info 2 /INPUT 32 "RegDOut";
+    .port_info 3 /INPUT 32 "RegHIOut";
+    .port_info 4 /INPUT 32 "RegLOOut";
+    .port_info 5 /INPUT 32 "RegBOut";
+    .port_info 6 /INPUT 32 "RegAOut";
+    .port_info 7 /INPUT 32 "RegAluOut";
+    .port_info 8 /INPUT 32 "OffsetLeft16";
+    .port_info 9 /INPUT 32 "OffsetLeft2";
+    .port_info 10 /INPUT 4 "MemToReg";
+    .port_info 11 /OUTPUT 32 "MuxMemToRegOut";
+P_000001dc4ac826e0 .param/l "Ent0" 0 2 18, +C4<00000000000000000000000000000000>;
+P_000001dc4ac82718 .param/l "Ent1" 0 2 19, +C4<00000000000000000000000000000001>;
+P_000001dc4ac82750 .param/l "Ent10" 0 2 28, +C4<00000000000000000000000000001010>;
+P_000001dc4ac82788 .param/l "Ent2" 0 2 20, +C4<00000000000000000000000000000010>;
+P_000001dc4ac827c0 .param/l "Ent3" 0 2 21, +C4<00000000000000000000000000000011>;
+P_000001dc4ac827f8 .param/l "Ent4" 0 2 22, +C4<00000000000000000000000000000100>;
+P_000001dc4ac82830 .param/l "Ent5" 0 2 23, +C4<00000000000000000000000000000101>;
+P_000001dc4ac82868 .param/l "Ent6" 0 2 24, +C4<00000000000000000000000000000110>;
+P_000001dc4ac828a0 .param/l "Ent7" 0 2 25, +C4<00000000000000000000000000000111>;
+P_000001dc4ac828d8 .param/l "Ent8" 0 2 26, +C4<00000000000000000000000000001000>;
+P_000001dc4ac82910 .param/l "Ent9" 0 2 27, +C4<00000000000000000000000000001001>;
+o000001dc4acb8f78 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4ac82ed0_0 .net "LT", 31 0, o000001dc4acb8f78;  0 drivers
+o000001dc4acb8fa8 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4ac6be90_0 .net "Load", 31 0, o000001dc4acb8fa8;  0 drivers
+o000001dc4acb8fd8 .functor BUFZ 4, C4<zzzz>; HiZ drive
+v000001dc4ac82950_0 .net "MemToReg", 3 0, o000001dc4acb8fd8;  0 drivers
+v000001dc4ac829f0_0 .var "MuxMemToRegOut", 31 0;
+o000001dc4acb9038 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4ac82a90_0 .net "OffsetLeft16", 31 0, o000001dc4acb9038;  0 drivers
+o000001dc4acb9068 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4acb34a0_0 .net "OffsetLeft2", 31 0, o000001dc4acb9068;  0 drivers
+o000001dc4acb9098 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4acb3540_0 .net "RegAOut", 31 0, o000001dc4acb9098;  0 drivers
+o000001dc4acb90c8 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4acb35e0_0 .net "RegAluOut", 31 0, o000001dc4acb90c8;  0 drivers
+o000001dc4acb90f8 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4acb3680_0 .net "RegBOut", 31 0, o000001dc4acb90f8;  0 drivers
+o000001dc4acb9128 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4acb3720_0 .net "RegDOut", 31 0, o000001dc4acb9128;  0 drivers
+o000001dc4acb9158 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4acb37c0_0 .net "RegHIOut", 31 0, o000001dc4acb9158;  0 drivers
+o000001dc4acb9188 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000001dc4acb3860_0 .net "RegLOOut", 31 0, o000001dc4acb9188;  0 drivers
+E_000001dc4acb8830/0 .event anyedge, v000001dc4ac82950_0, v000001dc4ac82ed0_0, v000001dc4ac6be90_0, v000001dc4acb3720_0;
+E_000001dc4acb8830/1 .event anyedge, v000001dc4acb37c0_0, v000001dc4acb3860_0, v000001dc4acb3680_0, v000001dc4acb3540_0;
+E_000001dc4acb8830/2 .event anyedge, v000001dc4acb35e0_0, v000001dc4ac82a90_0, v000001dc4acb34a0_0;
+E_000001dc4acb8830 .event/or E_000001dc4acb8830/0, E_000001dc4acb8830/1, E_000001dc4acb8830/2;
+    .scope S_000001dc4ac6bc30;
+T_0 ;
+    %wait E_000001dc4acb8830;
+    %load/vec4 v000001dc4ac82950_0;
+    %dup/vec4;
+    %pushi/vec4 0, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.0, 6;
+    %dup/vec4;
+    %pushi/vec4 1, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.1, 6;
+    %dup/vec4;
+    %pushi/vec4 2, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.2, 6;
+    %dup/vec4;
+    %pushi/vec4 3, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.3, 6;
+    %dup/vec4;
+    %pushi/vec4 4, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.4, 6;
+    %dup/vec4;
+    %pushi/vec4 5, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.5, 6;
+    %dup/vec4;
+    %pushi/vec4 6, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.6, 6;
+    %dup/vec4;
+    %pushi/vec4 7, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.7, 6;
+    %dup/vec4;
+    %pushi/vec4 8, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.8, 6;
+    %dup/vec4;
+    %pushi/vec4 9, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.9, 6;
+    %dup/vec4;
+    %pushi/vec4 10, 0, 4;
+    %cmp/u;
+    %jmp/1 T_0.10, 6;
+    %jmp T_0.11;
+T_0.0 ;
+    %load/vec4 v000001dc4ac82ed0_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.1 ;
+    %load/vec4 v000001dc4ac6be90_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.2 ;
+    %pushi/vec4 227, 0, 32;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.3 ;
+    %load/vec4 v000001dc4acb3720_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.4 ;
+    %load/vec4 v000001dc4acb37c0_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.5 ;
+    %load/vec4 v000001dc4acb3860_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.6 ;
+    %load/vec4 v000001dc4acb3680_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.7 ;
+    %load/vec4 v000001dc4acb3540_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.8 ;
+    %load/vec4 v000001dc4acb35e0_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.9 ;
+    %load/vec4 v000001dc4ac82a90_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.10 ;
+    %load/vec4 v000001dc4acb34a0_0;
+    %assign/vec4 v000001dc4ac829f0_0, 0;
+    %jmp T_0.11;
+T_0.11 ;
+    %pop/vec4 1;
+    %jmp T_0;
+    .thread T_0, $push;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "MuxMemToReg.v";

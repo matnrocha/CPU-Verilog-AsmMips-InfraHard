@@ -17,7 +17,7 @@ always @(*) begin
 		Ent0:
 			MuxLOOut <= DivLOOut;
 		Ent1:
-			MuxLOCtrlOut <= MultLOOut;
+			MuxLOOut <= MultLOOut;
 	endcase
 end
 

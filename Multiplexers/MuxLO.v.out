@@ -1,0 +1,55 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000002056ef26e40 .scope module, "MuxLO" "MuxLO" 2 1;
+ .timescale 0 0;
+    .port_info 0 /INPUT 32 "DivLOOut";
+    .port_info 1 /INPUT 32 "MultLOOut";
+    .port_info 2 /INPUT 1 "LOCtrl";
+    .port_info 3 /OUTPUT 32 "MuxLOOut";
+P_000002056eef2ed0 .param/l "Ent0" 0 2 12, +C4<00000000000000000000000000000000>;
+P_000002056eef2f08 .param/l "Ent1" 0 2 13, +C4<00000000000000000000000000000001>;
+o000002056ef26fd8 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000002056eed8f40_0 .net "DivLOOut", 31 0, o000002056ef26fd8;  0 drivers
+o000002056ef27008 .functor BUFZ 1, C4<z>; HiZ drive
+v000002056eede050_0 .net "LOCtrl", 0 0, o000002056ef27008;  0 drivers
+o000002056ef27038 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000002056eede0f0_0 .net "MultLOOut", 31 0, o000002056ef27038;  0 drivers
+v000002056eede9a0_0 .var "MuxLOOut", 31 0;
+E_000002056ef24e70 .event anyedge, v000002056eede050_0, v000002056eed8f40_0, v000002056eede0f0_0;
+    .scope S_000002056ef26e40;
+T_0 ;
+    %wait E_000002056ef24e70;
+    %load/vec4 v000002056eede050_0;
+    %dup/vec4;
+    %pushi/vec4 0, 0, 1;
+    %cmp/u;
+    %jmp/1 T_0.0, 6;
+    %dup/vec4;
+    %pushi/vec4 1, 0, 1;
+    %cmp/u;
+    %jmp/1 T_0.1, 6;
+    %jmp T_0.2;
+T_0.0 ;
+    %load/vec4 v000002056eed8f40_0;
+    %assign/vec4 v000002056eede9a0_0, 0;
+    %jmp T_0.2;
+T_0.1 ;
+    %load/vec4 v000002056eede0f0_0;
+    %assign/vec4 v000002056eede9a0_0, 0;
+    %jmp T_0.2;
+T_0.2 ;
+    %pop/vec4 1;
+    %jmp T_0;
+    .thread T_0, $push;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "MuxLO.v";

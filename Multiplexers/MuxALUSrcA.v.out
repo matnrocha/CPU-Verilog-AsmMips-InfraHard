@@ -1,0 +1,81 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000002c4024227f0 .scope module, "MuxAluSrcA" "MuxAluSrcA" 2 1;
+ .timescale 0 0;
+    .port_info 0 /INPUT 32 "RegPCOut";
+    .port_info 1 /INPUT 32 "RegBOut";
+    .port_info 2 /INPUT 32 "RegAOut";
+    .port_info 3 /INPUT 32 "RegMDROut";
+    .port_info 4 /INPUT 2 "AluSrcA";
+    .port_info 5 /OUTPUT 32 "MuxAluSrcAOut";
+P_000002c402422980 .param/l "Ent0" 0 2 14, +C4<00000000000000000000000000000000>;
+P_000002c4024229b8 .param/l "Ent1" 0 2 15, +C4<00000000000000000000000000000001>;
+P_000002c4024229f0 .param/l "Ent2" 0 2 16, +C4<00000000000000000000000000000010>;
+P_000002c402422a28 .param/l "Ent3" 0 2 17, +C4<00000000000000000000000000000011>;
+o000002c402456f98 .functor BUFZ 2, C4<zz>; HiZ drive
+v000002c402422a70_0 .net "AluSrcA", 1 0, o000002c402456f98;  0 drivers
+v000002c40240edd0_0 .var "MuxAluSrcAOut", 31 0;
+o000002c402456ff8 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000002c40240ee70_0 .net "RegAOut", 31 0, o000002c402456ff8;  0 drivers
+o000002c402457028 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000002c40240ef10_0 .net "RegBOut", 31 0, o000002c402457028;  0 drivers
+o000002c402457058 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000002c40240b790_0 .net "RegMDROut", 31 0, o000002c402457058;  0 drivers
+o000002c402457088 .functor BUFZ 32, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v000002c40240b830_0 .net "RegPCOut", 31 0, o000002c402457088;  0 drivers
+E_000002c4024562d0/0 .event anyedge, v000002c402422a70_0, v000002c40240b830_0, v000002c40240ef10_0, v000002c40240ee70_0;
+E_000002c4024562d0/1 .event anyedge, v000002c40240b790_0;
+E_000002c4024562d0 .event/or E_000002c4024562d0/0, E_000002c4024562d0/1;
+    .scope S_000002c4024227f0;
+T_0 ;
+    %wait E_000002c4024562d0;
+    %load/vec4 v000002c402422a70_0;
+    %dup/vec4;
+    %pushi/vec4 0, 0, 2;
+    %cmp/u;
+    %jmp/1 T_0.0, 6;
+    %dup/vec4;
+    %pushi/vec4 1, 0, 2;
+    %cmp/u;
+    %jmp/1 T_0.1, 6;
+    %dup/vec4;
+    %pushi/vec4 2, 0, 2;
+    %cmp/u;
+    %jmp/1 T_0.2, 6;
+    %dup/vec4;
+    %pushi/vec4 3, 0, 2;
+    %cmp/u;
+    %jmp/1 T_0.3, 6;
+    %jmp T_0.4;
+T_0.0 ;
+    %load/vec4 v000002c40240b830_0;
+    %assign/vec4 v000002c40240edd0_0, 0;
+    %jmp T_0.4;
+T_0.1 ;
+    %load/vec4 v000002c40240ef10_0;
+    %assign/vec4 v000002c40240edd0_0, 0;
+    %jmp T_0.4;
+T_0.2 ;
+    %load/vec4 v000002c40240ee70_0;
+    %assign/vec4 v000002c40240edd0_0, 0;
+    %jmp T_0.4;
+T_0.3 ;
+    %load/vec4 v000002c40240b790_0;
+    %assign/vec4 v000002c40240edd0_0, 0;
+    %jmp T_0.4;
+T_0.4 ;
+    %pop/vec4 1;
+    %jmp T_0;
+    .thread T_0, $push;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "MuxALUSrcA.v";

@@ -17,7 +17,7 @@ always @(*) begin
 		Ent0:
 			MuxHIOut <= DivHIOut;
 		Ent1:
-			MuxHICtrlOut <= MUltHIOut;
+			MuxHIOut <= MUltHIOut;
 	endcase
 end
 

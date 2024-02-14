@@ -25,15 +25,15 @@ always @(*) begin
 		Ent0:
 			MuxPCSrcOut <= RegAOut;
 		Ent1:
-			MuxPCSourceOut <= AluResult;
+			MuxPCSrcOut <= AluResult;
 		Ent2:
-			MuxPCSourceOut <= IncondJump;
+			MuxPCSrcOut <= IncondJump;
 		Ent3:
-			MuxPCSourceOut <= RegAluOutOut;
+			MuxPCSrcOut <= RegAluOutOut;
 		Ent4:
-			MuxPCSourceOut <= RegEPCOut;
+			MuxPCSrcOut <= RegEPCOut;
 		Ent5:
-			MuxPCSourceOut <= ExcpCode;
+			MuxPCSrcOut <= ExcpCode;
 	endcase
 end
 
