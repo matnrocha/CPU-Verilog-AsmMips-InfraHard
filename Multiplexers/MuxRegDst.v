@@ -8,6 +8,7 @@ input wire[2:0]
 output reg[4:0] 
     MuxRegDstOut
 );
+
 parameter 
     Ent0 = 0, 
     Ent1 = 1, 
