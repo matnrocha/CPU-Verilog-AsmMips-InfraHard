@@ -21,7 +21,6 @@ output reg
     AluOutControl,
     EPCWrite,
     ShiftSrc,
-    ShiftAmt,
     DivCtrl,
     MultCtrl,
     HICtrl,
@@ -46,6 +45,7 @@ output reg [1:0]
     SSControl,
     ExceptionCtrl,
     AluSrcA,
+	ShiftAmt,
 
 output reg [2:0]
     AluSrcB,
@@ -1633,7 +1633,7 @@ always @(posedge clock) begin
 				SRAMClk3: begin
 					//Alteradas
 						ShiftSrc = 1'b0;
-						ShiftAmt = 1'b1;
+						ShiftAmt = 2'b10;
 						ShiftCtrl = 3'b001;		//corrigido pra LOAD no regDeslocamento
 					//Inalteradas
 						IorD = 3'b000;
@@ -1667,7 +1667,7 @@ always @(posedge clock) begin
 				SRAMClk4: begin
 					//Alteradas
 						ShiftSrc = 1'b0;		//faz o calculo do deslocamento
-						ShiftAmt = 1'b1;
+						ShiftAmt = 2'b10;
 						ShiftCtrl = 3'b100;
 					//Inalteradas
 						IorD = 3'b000;
