@@ -3,11 +3,11 @@ input wire[31:0] RegAOut,       //receives RS
 input wire[31:0] RegBOut,       //receive RT
 
 input wire clock,
-input wire reset,
+input wire reset,   
 
-output reg div0,                //excp
 input wire divCtrl,
 output reg divDone,
+output reg div0,                //excp
 
 output reg[31:0] DivHIOut,      //rest
 output reg[31:0] DivLOOut       //quocient
