@@ -114,10 +114,9 @@ Banco_reg banco_registradores(clock, reset, RegWrite, RS, RT, MuxRegDstOut, MuxM
 RegDesloc regdesloc(clock, reset, ShiftCtrl, MuxShiftAmtOut, MuxShiftSrcOut, RegDeslocOut);
  
 Control controle(clock, reset, Opcode, Funct, WriteCond, PCWrite, RegWrite, Wr, IRWrite, WriteRegA, WriteRegB,
-				  AluOutControl, EPCWrite, ShiftSrc, DivCtrl, DivDone, Div0, MultCtrl, MultDone, HICtrl, LOCtrl, WriteHI,
+				  AluOutControl, EPCWrite, ShiftSrc, ShiftAmt, DivCtrl, DivDone, Div0, MultCtrl, MultDone, HICtrl, LOCtrl, WriteHI,
 				  WriteLO, MDRCtrl, Overflow, Negativo, Zero, EQ, GT, LT, LSControl, VMControl, ExceptionsCtrl,
-				  AluSrcA, ShiftAmt, AluSrcB, AluOp, PCSource, IorD, ShiftCtrl, RegDst, MemToReg, estado);
-
+				  AluSrcA, AluSrcB, AluOp, PCSource, IorD, ShiftCtrl, RegDst, MemToReg, estado);
  
 Memoria memoria(MuxIorDOut, clock, Wr, VMControlOut, MemData);
  

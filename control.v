@@ -1,66 +1,49 @@
 module Control(
 
 // Control Units Inputs/Outputs
-
-input 
-    clock, 
-    reset,
-
-input wire [5:0] 
-    Opcode, 
-    Funct,
-
-output reg
-    WriteCond,
-    PCWrite,
-    RegWrite,
-    Wr,
-    IRWrite,
-    WriteRegA,
-    WriteRegB,
-    AluOutControl,
-    EPCWrite,
-    ShiftSrc,
-    DivCtrl,
-    MultCtrl,
-    HICtrl,
-    LOCtrl,
-    WriteHI,
-    WriteLO,
-    MDRCtrl,
-
-input wire
-    DivDone,
-    MultDone,
-    Div0,
-    Overflow,
-    Negativo,
-    Zero,
-    EQ,
-    GT,
-    LT,
-
-output reg [1:0]
-    LSControl,
-    SSControl,
-    ExceptionCtrl,
-    AluSrcA,
-	ShiftAmt,
-
-output reg [2:0]
-    AluSrcB,
-    AluOp,
-    PCSource,
-    IorD,
-    ShiftCtrl,
-    RegDst,
-
-output reg [3:0]
-    MemToReg,
-
-output reg [6:0]
-    estado
-
+input clock,
+input reset,
+input wire [5:0] Opcode,
+input wire [5:0] Funct,
+output reg WriteCond,
+output reg PCWrite,
+output reg RegWrite,
+output reg Wr,
+output reg IRWrite,
+output reg WriteRegA,
+output reg WriteRegB,
+output reg AluOutControl,
+output reg EPCWrite,
+output reg ShiftSrc,
+output reg ShiftAmt,
+output reg DivCtrl,
+input wire DivDone,
+input wire Div0,
+output reg MultCtrl,
+input wire MultDone,
+output reg HICtrl,
+output reg LOCtrl,
+output reg WriteHI,
+output reg WriteLO,
+output reg MDRCtrl,
+input wire Overflow,
+input wire Negativo,
+input wire Zero,
+input wire EQ,
+input wire GT,
+input wire LT, 
+output reg [1:0] LSControl,
+output reg [1:0] SSControl,
+output reg [1:0] ExceptionCtrl, 
+output reg [1:0] AluSrcA,
+output reg [2:0] AluSrcB,
+output reg [2:0] AluOp,
+output reg [2:0] PCSource,
+output reg [2:0] IorD,
+output reg [2:0] ShiftCtrl,
+output reg [2:0] RegDst,
+output reg [3:0] MemToReg,
+output reg [6:0] estado
 );
 // parameters dos estados
 parameter FETCH = 7'b0000000;
