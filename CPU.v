@@ -41,7 +41,7 @@ wire [4:0]
 
 // declaracao das variaveis do programa
 wire [31:0] VMControlOut, RegWriteOutA, MuxPCSourceOut, RegAluOutOut, RegEPCOut, MuxIorDOut, LSControlOut, MultCtrlLOOut, MultCtrlHIOut, MuxExceptionsCtrlOut, MuxShiftSrcOut, RegDeslocOut;
-wire [31:0] MuxHICtrlOut, RegHIOut, MuxLOCtrlOut, RegLOOut, MuxAluSrcAOut, MuxAluSrcBOut, OffsetExtendidoLeft2, OffsetExtendido, OffsetSamtExtendido, LTExtendido, OffsetExtendidoLeft16, JumpAddress, RegWriteOutB;
+wire [31:0] MuxHICtrlOut, RegHIOut, MuxLOCtrlOut, RegLOOut, MuxAluSrcAOut, MuxAluSrcBOut, OffsetExtendidoLeft2, OffsetExtendido, LTExtendido, OffsetExtendidoLeft16, JumpAddress, RegWriteOutB;
 wire [4:0] RS, RT, RD, MuxRegDstOut, RegBOutCortado, MuxShiftAmtOut;
 wire [15:0] Offset;
 
