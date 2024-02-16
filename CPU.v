@@ -190,7 +190,7 @@ MuxLO MuxLOCtrl(DivCtrlLOOut, MultCtrlLOOut, LOCtrl, MuxLOCtrlOut);
 
 LoadSize LS(RegMDROut, LSControl, LSControlOut);
 
-StoreSize VM(RegBOut, RegMDROut, VMControl, VMControlOut);
+StoreSize VM(.RegBOut(RegBOut), .RegMDROut(RegMDROut), .VMCtrl(VMControl), .VMCtrlOut(VMControlOut));
 
 Mult Mult(RegAOut, RegBOut, clock, reset, MultCtrl, MultDone, MultCtrlHIOut, MultCtrlLOOut);
 

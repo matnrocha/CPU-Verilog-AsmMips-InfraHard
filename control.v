@@ -164,6 +164,11 @@ parameter XCHG = 6'h05;
 initial begin
 	estado = FETCH;
 end
+/*
+faltam:
+rte
+break
+*/
 
 always @(posedge clock) begin
 		if (reset) begin
@@ -690,6 +695,7 @@ always @(posedge clock) begin
 								AluSrcA = 2'b10;
 								AluSrcB = 3'b010;
 								AluOp = 3'b001;
+								SSControl = 2'b00;
 							//Inalteradas        
 								PCSource = 3'b000;
 								PCWrite = 1'b0;
@@ -702,7 +708,6 @@ always @(posedge clock) begin
 								RegWrite = 1'b0;
 								MDRCtrl = 1'b0;
 								LSControl = 2'b00;
-								SSControl = 2'b00;
 								ExceptionCtrl = 2'b00;
 								WriteHI = 1'b0;
 								WriteLO = 1'b0;
@@ -724,7 +729,9 @@ always @(posedge clock) begin
 								AluSrcA = 2'b10;
 								AluSrcB = 3'b010;
 								AluOp = 3'b001;
-							//Inalteradas        
+							    SSControl = 2'b01;
+								
+							//Inalteradas    
 								PCSource = 3'b000;
 								PCWrite = 1'b0;
 								WriteCond = 1'b0;
@@ -736,7 +743,6 @@ always @(posedge clock) begin
 								RegWrite = 1'b0;
 								MDRCtrl = 1'b0;
 								LSControl = 2'b00;
-								SSControl = 2'b00;
 								ExceptionCtrl = 2'b00;
 								WriteHI = 1'b0;
 								WriteLO = 1'b0;
@@ -758,6 +764,7 @@ always @(posedge clock) begin
 								AluSrcA = 2'b10;
 								AluSrcB = 3'b010;
 								AluOp = 3'b001;
+								SSControl = 2'b10;
 							//Inalteradas        
 								PCSource = 3'b000;
 								PCWrite = 1'b0;
@@ -770,7 +777,6 @@ always @(posedge clock) begin
 								RegWrite = 1'b0;
 								MDRCtrl = 1'b0;
 								LSControl = 2'b00;
-								SSControl = 2'b00;
 								ExceptionCtrl = 2'b00;
 								WriteHI = 1'b0;
 								WriteLO = 1'b0;
