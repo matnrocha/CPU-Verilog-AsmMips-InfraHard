@@ -41,8 +41,8 @@ wire [4:0]
 
 // declaracao das variaveis do programa
 wire [31:0] VMControlOut, RegWriteOutA, MuxPCSourceOut, RegAluOutOut, RegEPCOut, MuxIorDOut, LSControlOut, MultCtrlLOOut, MultCtrlHIOut, MuxExceptionsCtrlOut, MuxShiftSrcOut, RegDeslocOut;
-wire [31:0] MuxHICtrlOut, RegHIOut, MuxLOCtrlOut, RegLOOut, MuxAluSrcAOut, MuxAluSrcBOut, OffsetExtendidoLeft2, OffsetExtendido, LTExtendido, OffsetExtendidoLeft16, JumpAddress, RegWriteOutB;
-wire [4:0] RS, RT, RD, MuxRegDstOut, RegBOutC, MuxShiftAmtOut;
+wire [31:0] MuxHICtrlOut, RegHIOut, MuxLOCtrlOut, RegLOOut, MuxAluSrcAOut, MuxAluSrcBOut, OffsetExtendidoLeft2, OffsetExtendido, OffsetSamtExtendido, LTExtendido, OffsetExtendidoLeft16, JumpAddress, RegWriteOutB;
+wire [4:0] RS, RT, RD, MuxRegDstOut, RegBOutCortado, MuxShiftAmtOut;
 wire [15:0] Offset;
 
 wire Negativo, Zero, GT, LT, EQ; // 1bit da ALU
@@ -83,7 +83,8 @@ output wire [2:0] RegDst;
 wire [3:0] MemToReg;
 
 assign RegBOutCortado = RegBOut[4:0];
-assign OffsetExtendido = {{17{Offset[15]}}, Offset[14:0]};
+assign OffsetExtendido = {{17{Offset[15]}}, Offset[14:0]};      
+assign OffsetSamtExtendido = {{17{Offset[15]}}, Offset[14:0]};  //change
 assign OffsetExtendidoLeft2 = OffsetExtendido << 2;
 assign OffsetExtendidoLeft16 = OffsetExtendido << 16;
 assign Funct = Offset[5:0];
@@ -113,10 +114,52 @@ Banco_reg banco_registradores(clock, reset, RegWrite, RS, RT, MuxRegDstOut, MuxM
  
 RegDesloc regdesloc(clock, reset, ShiftCtrl, MuxShiftAmtOut, MuxShiftSrcOut, RegDeslocOut);
  
-Control controle(clock, reset, Opcode, Funct, WriteCond, PCWrite, RegWrite, Wr, IRWrite, WriteRegA, WriteRegB,
-				  AluOutControl, EPCWrite, ShiftSrc, ShiftAmt, DivCtrl, DivDone, Div0, MultCtrl, MultDone, HICtrl, LOCtrl, WriteHI,
-				  WriteLO, MDRCtrl, Overflow, Negativo, Zero, EQ, GT, LT, LSControl, VMControl, ExceptionsCtrl,
-				  AluSrcA, AluSrcB, AluOp, PCSource, IorD, ShiftCtrl, RegDst, MemToReg, estado);
+Control controle(
+    
+    .clock(clock), 
+    .reset(reset), 
+    .Opcode(Opcode), 
+    .Funct(Funct), 
+    .WriteCond(WriteCond), 
+    .PCWrite(PCWrite), 
+    .RegWrite(RegWrite), 
+    .Wr(Wr), 
+    .IRWrite(IRWrite), 
+    .WriteRegA(WriteRegA), 
+    .WriteRegB(WriteRegB),
+	.AluOutControl(AluOutControl), 
+    .EPCWrite(EPCWrite), 
+    .ShiftSrc(ShiftSrc), 
+    .DivCtrl(DivCtrl), 
+    .MultCtrl(MultCtrl), 
+    .HICtrl(HICtrl), 
+    .LOCtrl(LOCtrl), 
+    .WriteHI(WriteHI),
+    .WriteLO(WriteLO), 
+    .MDRCtrl(MDRCtrl), 
+    .DivDone(DivDone), 
+    .Div0(Div0), 
+    .MultDone(MultDone), 
+    .Overflow(Overflow), 
+    .Negativo(Negativo), 
+    .Zero(Zero), 
+    .EQ(EQ), 
+    .GT(GT), 
+    .LT(LT), 
+    .LSControl(LSControl), 
+    .SSControl(VMControl), 
+    .ExceptionCtrl(ExceptionsCtrl),
+    .AluSrcA(AluSrcA), 
+    .ShiftAmt(ShiftAmt), 
+    .AluSrcB(AluSrcB), 
+    .AluOp(AluOp), 
+    .PCSource(PCSource), 
+    .IorD(IorD), 
+    .ShiftCtrl(ShiftCtrl), 
+    .RegDst(RegDst), 
+    .MemToReg(MemToReg), 
+    .estado(estado));
+
  
 Memoria memoria(MuxIorDOut, clock, Wr, VMControlOut, MemData);
  
@@ -138,7 +181,7 @@ MuxExcp MuxExceptionsCtrl(ExceptionsCtrl, MuxExceptionsCtrlOut);
 
 MuxShiftSrc MuxShiftSrc(RegAOut, RegBOut, ShiftSrc, MuxShiftSrcOut);
 
-MuxShiftAmt MuxShiftAmt(RegBOutCortado, Shamt, ShiftAmt, MuxShiftAmtOut);
+MuxShiftAmt MuxShiftAmt(RegBOutCortado, Shamt, RegMDROut[4:0], ShiftAmt, MuxShiftAmtOut);
 
 MuxMemToReg MuxMemToReg(LTExtendido, LSControlOut, RegDeslocOut, RegHIOut, RegLOOut, RegBOut, RegAOut, RegAluOutOut, OffsetExtendidoLeft2, OffsetExtendidoLeft16, MemToReg, MuxMemToRegOut);
 

@@ -1,12 +1,11 @@
 module MuxShiftAmt (
 input wire[4:0] 
     RegBOutC,
-    Shamt,
-input wire[31:0] 
+    Shamt, 
     ExtendedOffset,
-input wire 
+input wire[1:0] 
     ShiftAmt,
-output reg[31:0] 
+output reg[4:0] 
     MuxShiftAmtOut
 );
 

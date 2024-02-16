@@ -1,143 +1,164 @@
 module Control(
 
 // Control Units Inputs/Outputs
-input clock,
-input reset,
-input wire [5:0] Opcode,
-input wire [5:0] Funct,
-output reg WriteCond,
-output reg PCWrite,
-output reg RegWrite,
-output reg Wr,
-output reg IRWrite,
-output reg WriteRegA,
-output reg WriteRegB,
-output reg AluOutControl,
-output reg EPCWrite,
-output reg ShiftSrc,
-output reg ShiftAmt,
-output reg DivCtrl,
-input wire DivDone,
-input wire Div0,
-output reg MultCtrl,
-input wire MultDone,
-output reg HICtrl,
-output reg LOCtrl,
-output reg WriteHI,
-output reg WriteLO,
-output reg MDRCtrl,
-input wire Overflow,
-input wire Negativo,
-input wire Zero,
-input wire EQ,
-input wire GT,
-input wire LT, 
-output reg [1:0] LSControl,
-output reg [1:0] SSControl,
-output reg [1:0] ExceptionCtrl, 
-output reg [1:0] AluSrcA,
-output reg [2:0] AluSrcB,
-output reg [2:0] AluOp,
-output reg [2:0] PCSource,
-output reg [2:0] IorD,
-output reg [2:0] ShiftCtrl,
-output reg [2:0] RegDst,
-output reg [3:0] MemToReg,
-output reg [6:0] estado
+
+input 
+    clock, 
+    reset,
+
+input wire [5:0] 
+    Opcode, 
+    Funct,
+
+output reg
+    WriteCond,
+    PCWrite,
+    RegWrite,
+    Wr,
+    IRWrite,
+    WriteRegA,
+    WriteRegB,
+    AluOutControl,
+    EPCWrite,
+    ShiftSrc,
+    DivCtrl,
+    MultCtrl,
+    HICtrl,
+    LOCtrl,
+    WriteHI,
+    WriteLO,
+    MDRCtrl,
+
+input wire
+    DivDone,
+    Div0,
+    MultDone,
+    Overflow,
+    Negativo,
+    Zero,
+    EQ,
+    GT,
+    LT,
+
+output reg [1:0]
+    LSControl,
+    SSControl,
+    ExceptionCtrl,
+    AluSrcA,
+	ShiftAmt,
+
+output reg [2:0]
+    AluSrcB,
+    AluOp,
+    PCSource,
+    IorD,
+    ShiftCtrl,
+    RegDst,
+
+output reg [3:0]
+    MemToReg,
+
+output reg [6:0]
+    estado
+
 );
 // parameters dos estados
-parameter FETCH = 7'b0000000;
-parameter WAITFETCH = 7'b0000001;
-parameter WAITFETCH2 = 7'b0000010;
-parameter DECODE = 7'b0000011;
-parameter OPERAR = 7'b0000100;
-parameter ADDIUClk2 = 7'b0000101;
-parameter ANDClk2 = 7'b0000110;
-parameter SHIFTOperationClk3 = 7'b0000111;
-parameter XCHGClk2 = 7'b0001000;
-parameter SRAMClk2 = 7'b0001001;		//9
-parameter SRAMClk3 = 7'b0001010;
-parameter SRAMClk4 = 7'b0001011;
-parameter SRAMClk5 = 7'b0001100;		//12
-parameter LBClk2 = 7'b0001110;
-parameter LBClk3 = 7'b0001111;
-parameter LHClk2 = 7'b0010000;
-parameter LHClk3 = 7'b0010001;
-parameter LWClk2 = 7'b0010010;
-parameter LWClk3 = 7'b0010011;
-parameter SBClk2 = 7'b0010100;
-parameter SBClk3 = 7'b0010101;
-parameter SHClk2 = 7'b0010110;
-parameter SHClk3 = 7'b0010111;
-parameter SWClk2 = 7'b0011000;
-parameter SWClk3 = 7'b0011001;
-parameter BEQClk2 = 7'b0011010;
-parameter BGTClk2 = 7'b0011011;
-parameter BLEClk2 = 7'b0011100;
-parameter SWClk4 = 7'b0011110;
-parameter LHClk4 = 7'b0011111;
-parameter LWClk4 = 7'b0100000;
-parameter LBClk4 = 7'b0100001;
-parameter SHClk4 = 7'b0100010;
-parameter SLTClk2 = 7'b0100011;
-parameter SBClk4 = 7'b0100100;
-parameter SLTIClk2 = 7'b0100101;
-parameter SLLClk2 = 7'b0100110;
-parameter SLLVClk2 = 7'b0100111;
-parameter SRLClk2 = 7'b0101000;
-parameter SRAClk2 = 7'b0101001;
-parameter SRAVClk2 = 7'b0101010;
-parameter BNEClk2 = 7'b0101011;
-parameter ADDIClk2 = 7'b0101100;
-parameter ExceptionByteToPc = 7'b0101101;
-parameter ExceptionWait = 7'b0101110;
-parameter ADD_SUBClk2 = 7'b0101111;
-parameter JALClk2 = 7'b0110000;
+parameter FETCH = 7'd00;
+parameter WAITFETCH = 7'd01;
+parameter WAITFETCH2 = 7'd02;
+parameter DECODE = 7'd03;
+parameter OPERAR = 7'd04;
+parameter ADDIUClk2 = 7'd05;
+parameter ANDClk2 = 7'd06;
+parameter SHIFTOperationClk3 = 7'd07;
+parameter XCHGClk2 = 7'd08;
+parameter SRAMClk2 = 7'd09;        //9
+parameter SRAMClk3 = 7'd10;
+parameter SRAMClk4 = 7'd11;
+parameter SRAMClk5 = 7'd12;        //12
+parameter SRAMClk6 = 7'd13;        //12
 
 
-parameter MULTClk2 = 7'b1000000;
-parameter DIVClk2 = 7'b1000001;
-parameter DIVClk3 = 7'b1000010;
-parameter WAIT = 7'b1111111;
+parameter LBClk2 = 7'd14;
+parameter LBClk3 = 7'd15;
+parameter LHClk2 = 7'd16;
+parameter LHClk3 = 7'd17;
+parameter LWClk2 = 7'd18;
+parameter LWClk3 = 7'd19;
+parameter SBClk2 = 7'd20;
+parameter SBClk3 = 7'd21;
+parameter SHClk2 = 7'd22;
+parameter SHClk3 = 7'd23;
+parameter SWClk2 = 7'd24;
+parameter SWClk3 = 7'd25;
+parameter BEQClk2 = 7'd26;
+parameter BGTClk2 = 7'd27;
+parameter BLEClk2 = 7'd28;
+parameter SWClk4 = 7'd30;
+parameter LHClk4 = 7'd31;
+parameter LWClk4 = 7'd32;
+parameter LBClk4 = 7'd33;
+parameter SHClk4 = 7'd34;
+parameter SLTClk2 = 7'd35;
+parameter SBClk4 = 7'd36;
+parameter SLTIClk2 = 7'd37;
+parameter SLLClk2 = 7'd38;
+parameter SLLVClk2 = 7'd39;
+parameter SRLClk2 = 7'd40;
+parameter SRAClk2 = 7'd41;
+parameter SRAVClk2 = 7'd42;
+parameter BNEClk2 = 7'd43;
+parameter ADDIClk2 = 7'd44;
+parameter ExceptionByteToPc = 7'd45;
+parameter ExceptionWait = 7'd46;
+parameter ADD_SUBClk2 = 7'd47;
+parameter JALClk2 = 7'd48;
+parameter SRAMClk7 = 7'd49;        //12
+
+
+parameter MULTClk2 = 7'd64;
+parameter DIVClk2 = 7'd65;
+parameter DIVClk3 = 7'd66;
+parameter WAIT = 7'd127;
 
 // parameters do Opcode
-parameter RINSTRUCTION = 6'b000000;
-parameter SRAM = 6'b000001;
-parameter ADDI = 6'b001000;
-parameter ADDIU = 6'b001001;
-parameter BEQ = 6'b000100;
-parameter BNE = 6'b000101;
-parameter BLE = 6'b000110;
-parameter BGT = 6'b000111;
-parameter LB = 6'b100000;
-parameter LH = 6'b100001;
-parameter LUI = 6'b001111;
-parameter LW = 6'b100011;
-parameter SB = 6'b101000;
-parameter SH = 6'b101001;
-parameter SLTI = 6'b001010;
-parameter SW = 6'b101011;
-parameter J = 6'b000010;
-parameter JAL = 6'b000011;
+parameter RINSTRUCTION = 6'h00;
+parameter SRAM = 6'h01;
+parameter ADDI = 6'h08;
+parameter ADDIU = 6'h09;
+parameter BEQ = 6'h04;
+parameter BNE = 6'h05;
+parameter BLE = 6'h06;
+parameter BGT = 6'h07;
+parameter LB = 6'h20;
+parameter LH = 6'h21;
+parameter LUI = 6'h0f;
+parameter LW = 6'h23;
+parameter SB = 6'h28;
+parameter SH = 6'h29;
+parameter SLTI = 6'h0a;
+parameter SW = 6'h2b;
+parameter J = 6'h02;
+parameter JAL = 6'h03;
 
 // parameters do Funct
-parameter ADD = 6'b100000;
-parameter AND = 6'b100100;
-parameter DIV = 6'b011010;
-parameter MULT = 6'b011000;
-parameter JR = 6'b001000;
-parameter MFHI = 6'b010000;
-parameter MFLO = 6'b010010;
-parameter SLL = 6'b000000;
-parameter SLLV = 6'b000100;
-parameter SLT = 6'b101010;
-parameter SRA = 6'b000011;
-parameter SRAV = 6'b000111;
-parameter SRL = 6'b000010;
-parameter SUB = 6'b100010;
-parameter BREAK = 6'b001101;
-parameter RTE = 6'b010011;
-parameter XCHG = 6'b000101;
+parameter ADD = 6'h20;
+parameter AND = 6'h24;
+parameter DIV = 6'h1a;
+parameter MULT = 6'h18;
+parameter JR = 6'h08;
+parameter MFHI = 6'h10;
+parameter MFLO = 6'h12;
+parameter SLL = 6'h00;
+parameter SLLV = 6'h04;
+parameter SLT = 6'h2a;
+parameter SRA = 6'h03;
+parameter SRAV = 6'h07;
+parameter SRL = 6'h02;
+parameter SUB = 6'h22;
+parameter BREAK = 6'h0d;
+parameter RTE = 6'h13;
+parameter XCHG = 6'h05;
 
 
 initial begin
@@ -456,11 +477,12 @@ always @(posedge clock) begin
 						SRAM: begin
 							//Alteradas
 								AluSrcA = 2'b10;
-								AluSrcB = 3'b000;
+								AluSrcB = 3'b010;
+								AluOp = 3'b001;
 								AluOutControl = 1'b1;
 							//Inalteradas 
 								WriteCond = 1'b0;
-								AluOp = 3'b000;
+							
 								IorD = 3'b000;
 								Wr = 1'b0;
 								IRWrite = 1'b0;
@@ -1139,6 +1161,7 @@ always @(posedge clock) begin
 									//Alteradas
 										ShiftSrc = 1'b0;
 										ShiftCtrl = 3'b001;
+										ShiftAmt = 1'b1;
 									//Inalteradas        
 										PCSource = 3'b000;
 										PCWrite = 1'b0;
@@ -1165,7 +1188,7 @@ always @(posedge clock) begin
 										LOCtrl = 1'b0;
 										DivCtrl = 1'b0;
 										MultCtrl = 1'b0;
-										ShiftAmt = 1'b0;
+										
 										EPCWrite = 1'b0;
 										estado = SLLClk2;
 									end
@@ -1207,6 +1230,7 @@ always @(posedge clock) begin
 									//Alteradas
 										ShiftSrc = 1'b0;
 										ShiftCtrl = 3'b001;
+										ShiftAmt = 1'b1;
 									//Inalteradas        
 										PCSource = 3'b000;
 										PCWrite = 1'b0;
@@ -1233,7 +1257,7 @@ always @(posedge clock) begin
 										LOCtrl = 1'b0;
 										DivCtrl = 1'b0;
 										MultCtrl = 1'b0;
-										ShiftAmt = 1'b0;
+									
 										EPCWrite = 1'b0;
 										estado = SRLClk2;
 									end
@@ -1241,6 +1265,7 @@ always @(posedge clock) begin
 									//Alteradas
 										ShiftSrc = 1'b0;
 										ShiftCtrl = 3'b001;
+										ShiftAmt = 1'b1;
 									//Inalteradas        
 										PCSource = 3'b000;
 										PCWrite = 1'b0;
@@ -1267,7 +1292,7 @@ always @(posedge clock) begin
 										LOCtrl = 1'b0;
 										DivCtrl = 1'b0;
 										MultCtrl = 1'b0;
-										ShiftAmt = 1'b0;
+										
 										EPCWrite = 1'b0;
 										estado = SRAClk2;
 									end
@@ -1583,8 +1608,8 @@ always @(posedge clock) begin
 					//Alteradas
 						IorD = 3'b011;
 						Wr = 1'b0;
-						MDRCtrl = 1'b1;
 					//Inalteradas
+						MDRCtrl = 1'b0;
 						MemToReg = 4'b0000;
 						RegWrite = 1'b0;
 						RegDst = 3'b000; 
@@ -1615,13 +1640,14 @@ always @(posedge clock) begin
 				end
 				SRAMClk3: begin
 					//Alteradas
-						ShiftSrc = 1'b0;
-						ShiftAmt = 2'b10;
-						ShiftCtrl = 3'b001;		//corrigido pra LOAD no regDeslocamento
 					//Inalteradas
+						MDRCtrl = 1'b0;
+						ShiftSrc = 1'b0;
+						ShiftAmt = 2'b00;
+						ShiftCtrl = 3'b000;		//corrigido pra LOAD no regDeslocamento
 						IorD = 3'b000;
 						Wr = 1'b0;
-						MDRCtrl = 1'b0;
+						
 						MemToReg = 4'b0000;
 						RegWrite = 1'b0;
 						RegDst = 3'b000; 
@@ -1649,13 +1675,15 @@ always @(posedge clock) begin
 				end
 				SRAMClk4: begin
 					//Alteradas
-						ShiftSrc = 1'b0;		//faz o calculo do deslocamento
-						ShiftAmt = 2'b10;
-						ShiftCtrl = 3'b100;
+						MDRCtrl = 1'b1;
+
 					//Inalteradas
+						ShiftSrc = 1'b0;
+						ShiftAmt = 2'b00;
+						ShiftCtrl = 3'b000;		//corrigido pra LOAD no regDeslocamento
 						IorD = 3'b000;
 						Wr = 1'b0;
-						MDRCtrl = 1'b0;
+						
 						MemToReg = 4'b0000;
 						RegWrite = 1'b0;
 						RegDst = 3'b000; 
@@ -1684,6 +1712,78 @@ always @(posedge clock) begin
 
 				SRAMClk5: begin
 					//Alteradas
+						ShiftSrc = 1'b0;
+						ShiftAmt = 2'b10;
+						ShiftCtrl = 3'b001;
+					//Inalteradas
+						IorD = 3'b000;				//escreve no registrador rt
+						Wr = 1'b0;
+						MDRCtrl = 1'b0;
+						MemToReg = 4'b0000;
+						RegDst = 3'b000; 
+						RegWrite = 1'b0;
+						
+						PCSource = 3'b000;
+						PCWrite = 1'b0;
+						WriteCond = 1'b0;
+						IRWrite = 1'b0;
+						WriteRegA = 1'b0;
+						WriteRegB = 1'b0;
+						AluSrcA = 2'b00;
+						AluSrcB = 3'b000;
+						AluOp = 3'b000;
+						AluOutControl = 1'b0;
+						LSControl = 2'b00;
+						SSControl = 2'b00;
+						ExceptionCtrl = 2'b00;
+						WriteHI = 1'b0;
+						WriteLO = 1'b0;
+						HICtrl = 1'b0;
+						LOCtrl = 1'b0;
+						DivCtrl = 1'b0;
+						MultCtrl = 1'b0;
+						EPCWrite = 1'b0;
+						estado = SRAMClk6;
+				end
+				SRAMClk6:
+				begin
+					//Alteradas
+						ShiftSrc = 1'b0;		//faz o calculo do deslocamento
+						ShiftAmt = 2'b10;
+						ShiftCtrl = 3'b100;
+					//Inalteradas
+						IorD = 3'b000;				//escreve no registrador rt
+						Wr = 1'b0;
+						MDRCtrl = 1'b0;
+						MemToReg = 4'b0000;
+						RegDst = 3'b000; 
+						RegWrite = 1'b0;
+						PCSource = 3'b000;
+						PCWrite = 1'b0;
+						WriteCond = 1'b0;
+						IRWrite = 1'b0;
+						WriteRegA = 1'b0;
+						WriteRegB = 1'b0;
+						AluSrcA = 2'b00;
+						AluSrcB = 3'b000;
+						AluOp = 3'b000;
+						AluOutControl = 1'b0;
+						LSControl = 2'b00;
+						SSControl = 2'b00;
+						ExceptionCtrl = 2'b00;
+						WriteHI = 1'b0;
+						WriteLO = 1'b0;
+						HICtrl = 1'b0;
+						LOCtrl = 1'b0;
+						DivCtrl = 1'b0;
+						MultCtrl = 1'b0;
+						EPCWrite = 1'b0;
+						estado = SRAMClk7;
+				end
+
+				SRAMClk7:
+				begin
+					//Alteradas
 						IorD = 3'b011;				//escreve no registrador rt
 						Wr = 1'b0;
 						MDRCtrl = 1'b1;
@@ -1691,9 +1791,14 @@ always @(posedge clock) begin
 						RegDst = 3'b001; 
 						RegWrite = 1'b1;
 					//Inalteradas
-						ShiftSrc = 1'b0;		
-						ShiftAmt = 1'b0;
+						ShiftSrc = 1'b0;		//faz o calculo do deslocamento
+						ShiftAmt = 2'b00;
 						ShiftCtrl = 3'b000;
+		
+		
+				
+					 
+					
 						PCSource = 3'b000;
 						PCWrite = 1'b0;
 						WriteCond = 1'b0;
@@ -1716,6 +1821,8 @@ always @(posedge clock) begin
 						EPCWrite = 1'b0;
 						estado = WAIT;
 				end
+
+
 				SLLClk2: begin
 					//Alteradas
 						ShiftAmt = 1'b1;
@@ -1888,10 +1995,12 @@ always @(posedge clock) begin
 					end
 				SHIFTOperationClk3:begin
 					//Alteradas
+						ShiftAmt = 1'b1;
 						RegDst = 3'b010;
 						MemToReg = 4'b0011;
 						RegWrite = 1'b1;
 					//Inalteradas
+						ShiftCtrl = 3'b000;
 						PCSource = 3'b000;
 						PCWrite = 1'b0;
 						WriteCond = 1'b0;
@@ -1915,8 +2024,7 @@ always @(posedge clock) begin
 						DivCtrl = 1'b0;
 						MultCtrl = 1'b0;
 						ShiftSrc = 1'b0;
-						ShiftAmt = 1'b0;
-						ShiftCtrl = 3'b000;
+						
 						EPCWrite = 1'b0;
 						estado = WAIT;
 					end
