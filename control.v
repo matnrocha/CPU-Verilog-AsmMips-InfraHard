@@ -1503,6 +1503,41 @@ always @(posedge clock) begin
 					                    EPCWrite = 1'b0;
 					                    estado = FETCH;
 									end
+									default: begin
+										//Alteradas
+										IorD = 3'b001;
+										Wr = 1'b0;
+										AluSrcA = 2'b00;
+										AluSrcB = 3'b001;
+										AluOp = 3'b010;
+										ExceptionCtrl = 2'b00;
+										EPCWrite = 1'b1;
+										//Inalteradas        
+										PCSource = 3'b000;
+										PCWrite = 1'b0;
+										WriteCond = 1'b0;
+										IRWrite = 1'b0;
+										WriteRegA = 1'b0;
+										WriteRegB = 1'b0;
+										AluOutControl = 1'b0;
+										RegDst = 3'b000;
+										MemToReg = 4'b0000;
+										RegWrite = 1'b0;
+										MDRCtrl = 1'b0;
+										LSControl = 2'b00;
+										SSControl = 2'b00;
+										WriteHI = 1'b0;
+										WriteLO = 1'b0;
+										HICtrl = 1'b0;
+										LOCtrl = 1'b0;
+										DivCtrl = 1'b0;
+										MultCtrl = 1'b0;
+										ShiftSrc = 1'b0;
+										ShiftAmt = 1'b0;
+										ShiftCtrl = 3'b000;
+										estado = ExceptionWait;
+									end
+
 								endcase
 							end
 						default: begin

@@ -91,7 +91,7 @@ assign Shamt = Offset[10:6];
 assign RD = Offset[15:11];
 assign JumpAddress = {RegPCOut[31:28], RS[4:0], RT[4:0], Offset[15:0] ,2'b0};
 assign LTExtendido = {31'b0, LT};
-assign ExceptionBitExtendido = {31'b0, MemData[0]};
+assign ExceptionBitExtendido = {24'b0, MemData[7:0]};
 
 Registrador A(clock, reset, WriteRegA, RegWriteOutA, RegAOut);
  

@@ -198,6 +198,7 @@ always @(posedge clock) begin
 			Contador = Contador + 1;//Incrementa resultado
 		end
 	end else begin
+		DivDone = 1'b0;
 		Initialize = 1'b1;
 	end
 end

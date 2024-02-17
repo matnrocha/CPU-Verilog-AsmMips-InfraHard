@@ -18,6 +18,7 @@ reg signed [64:0] AMultiplicandComparePos;
 reg signed [64:0] Multiplier;
 reg signed [31:0] NegativeBTemp;
 reg signed [64:0] Temp;
+
 initial begin
 	Initialize = 1'b1;
 end
@@ -33,7 +34,17 @@ always @ (posedge clock) begin
 		MultDone = 1'b0;
 		MultHIOut[31:0] = 32'b0;
 		MultLOOut[31:0] = 32'b0;
-	end else if(MultCtrl == 1'd1 && Initialize == 1'b1) begin
+	end else if(MultDone == 1'b1)
+	begin
+		AMultiplicandComparePos = {32'b0, RegAOut[31:0], 1'b0};
+		Multiplier = {RegBOut[31:0], 33'b0};
+		NegativeBTemp = ~RegBOut + 1'b1;
+		Temp = {NegativeBTemp, 33'b0};
+		counter = 7'b0;
+		MultDone = 1'b0;
+	end
+	
+	else if(MultCtrl == 1'd1 && Initialize == 1'b1) begin
 		AMultiplicandComparePos = {32'b0, RegAOut[31:0], 1'b0};
 		Multiplier = {RegBOut[31:0], 33'b0};
 		NegativeBTemp = ~RegBOut + 1'b1;
