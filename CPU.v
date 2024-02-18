@@ -21,7 +21,7 @@ module CPU (
 input clock;
 input reset;
 
-//variaveis a printar OBS: tambem precisa especificar elas no parenteses apos CPU
+//variaveis de visualizacao
 output wire [31:0] 
     RegAOut, RegBOut, 
     RegPCOut, 
@@ -39,16 +39,17 @@ output wire [5:0]
 wire [4:0] 
     Shamt;
 
-// declaracao das variaveis do programa
+// variaveis internas
 wire [31:0] VMControlOut, RegWriteOutA, MuxPCSourceOut, RegAluOutOut, RegEPCOut, MuxIorDOut, LSControlOut, MultCtrlLOOut, MultCtrlHIOut, MuxExceptionsCtrlOut, MuxShiftSrcOut, RegDeslocOut;
 wire [31:0] MuxHICtrlOut, RegHIOut, MuxLOCtrlOut, RegLOOut, MuxAluSrcAOut, MuxAluSrcBOut, OffsetExtendidoLeft2, OffsetExtendido, LTExtendido, OffsetExtendidoLeft16, JumpAddress, RegWriteOutB;
 wire [4:0] RS, RT, RD, MuxRegDstOut, RegBOutCortado, MuxShiftAmtOut;
 wire [15:0] Offset;
 
-wire Negativo, Zero, GT, LT, EQ; // 1bit da ALU
+//retorno da ALU
+wire Negativo, Zero, GT, LT, EQ; 
 output wire Overflow;
 
-// flags de controle
+// flags
 wire WriteCond;
 wire PCWrite;
 wire RegWrite;
@@ -93,28 +94,92 @@ assign JumpAddress = {RegPCOut[31:28], RS[4:0], RT[4:0], Offset[15:0] ,2'b0};
 assign LTExtendido = {31'b0, LT};
 assign ExceptionBitExtendido = {24'b0, MemData[7:0]};
 
-Registrador A(clock, reset, WriteRegA, RegWriteOutA, RegAOut);
+Registrador A(
+    clock, 
+    reset, 
+    WriteRegA, 
+    RegWriteOutA, 
+    RegAOut
+);
  
-Registrador B(clock, reset, WriteRegB, RegWriteOutB, RegBOut);
+Registrador B(
+    clock, 
+    reset, 
+    WriteRegB, 
+    RegWriteOutB, 
+    RegBOut
+);
 
-Registrador PC (clock, reset, PCWrite, MuxPCSourceOut, RegPCOut);
+Registrador PC (
+    clock, 
+    reset, 
+    PCWrite, 
+    MuxPCSourceOut, 
+    RegPCOut
+);
 
-Registrador EPC (clock, reset, EPCWrite, AluResult, RegEPCOut);
+Registrador EPC (
+    clock, 
+    reset, 
+    EPCWrite, 
+    AluResult, 
+    RegEPCOut
+);
  
-Registrador AluOut (clock, reset, AluOutControl, AluResult, RegAluOutOut);
+Registrador AluOut (
+    clock, 
+    reset, 
+    AluOutControl, 
+    AluResult, 
+    RegAluOutOut
+);
  
-Registrador MDR(clock, reset, MDRCtrl, MemData, RegMDROut);
+Registrador MDR(
+    clock, 
+    reset, 
+    MDRCtrl, 
+    MemData, 
+    RegMDROut
+);
  
-Registrador HI(clock, reset, WriteHI, MuxHICtrlOut, RegHIOut);
+Registrador HI(
+    clock, 
+    reset, 
+    WriteHI, 
+    MuxHICtrlOut, 
+    RegHIOut
+);
  
-Registrador LO(clock, reset, WriteLO, MuxLOCtrlOut, RegLOOut);
+Registrador LO(
+    clock, 
+    reset, 
+    WriteLO, 
+    MuxLOCtrlOut, 
+    RegLOOut
+);
  
-Banco_reg banco_registradores(clock, reset, RegWrite, RS, RT, MuxRegDstOut, MuxMemToRegOut, RegWriteOutA, RegWriteOutB);
+Banco_reg banco_registradores(
+    clock, 
+    reset, 
+    RegWrite, 
+    RS, 
+    RT, 
+    MuxRegDstOut, 
+    MuxMemToRegOut, 
+    RegWriteOutA, 
+    RegWriteOutB
+);
  
-RegDesloc regdesloc(clock, reset, ShiftCtrl, MuxShiftAmtOut, MuxShiftSrcOut, RegDeslocOut);
+RegDesloc regdesloc(
+    clock, 
+    reset, 
+    ShiftCtrl, 
+    MuxShiftAmtOut, 
+    MuxShiftSrcOut, 
+    RegDeslocOut
+);
  
 Control controle(
-    
     .clock(clock), 
     .reset(reset), 
     .Opcode(Opcode), 
@@ -157,43 +222,172 @@ Control controle(
     .ShiftCtrl(ShiftCtrl), 
     .RegDst(RegDst), 
     .MemToReg(MemToReg), 
-    .estado(estado));
+    .state(estado)
+);
 
  
-Memoria memoria(MuxIorDOut, clock, Wr, VMControlOut, MemData);
+Memoria memoria(
+    MuxIorDOut, 
+    clock, 
+    Wr, 
+    VMControlOut, 
+    MemData
+);
  
-Instr_Reg InstructionRegisters (clock, reset, IRWrite, MemData, Opcode, RS, RT, Offset);	
+Instr_Reg InstructionRegisters (
+    clock, 
+    reset, 
+    IRWrite, 
+    MemData, 
+    Opcode, 
+    RS, 
+    RT, 
+    Offset
+);	
 
-ula32 Alu(MuxAluSrcAOut, MuxAluSrcBOut, AluOp, AluResult, Overflow, Negativo, Zero, EQ, GT, LT);
+ula32 Alu(
+    MuxAluSrcAOut, 
+    MuxAluSrcBOut, 
+    AluOp, 
+    AluResult, 
+    Overflow, 
+    Negativo, 
+    Zero, 
+    EQ, 
+    GT, 
+    LT
+);
 
-MuxIorD MuxIorD(RegPCOut, MuxExceptionsCtrlOut, AluResult, RegAluOutOut, RegAOut, IorD, MuxIorDOut);
+MuxIorD MuxIorD(
+    RegPCOut, 
+    MuxExceptionsCtrlOut, 
+    AluResult, 
+    RegAluOutOut, 
+    RegAOut, 
+    IorD, 
+    MuxIorDOut
+);
  
-MuxRegDst MuxRegDst(RS, RT, RD, RegDst, MuxRegDstOut);
+MuxRegDst MuxRegDst(
+    RS, 
+    RT, 
+    RD, 
+    RegDst, 
+    MuxRegDstOut
+);
  
-MuxAluSrcA MuxAluSrcA(RegPCOut, RegBOut, RegAOut, RegMDROut, AluSrcA, MuxAluSrcAOut);
+MuxAluSrcA MuxAluSrcA(
+    RegPCOut, 
+    RegBOut, 
+    RegAOut, 
+    RegMDROut, 
+    AluSrcA, 
+    MuxAluSrcAOut
+);
 
-MuxAluSrcB MuxAluSrcB(RegBOut, OffsetExtendido, LSControlOut, OffsetExtendidoLeft2, AluSrcB, MuxAluSrcBOut);
+MuxAluSrcB MuxAluSrcB(
+    RegBOut, 
+    OffsetExtendido, 
+    LSControlOut, 
+    OffsetExtendidoLeft2, 
+    AluSrcB, 
+    MuxAluSrcBOut
+);
 
-MuxPCSrc MuxPCSource(RegAOut, AluResult, JumpAddress, RegAluOutOut, RegEPCOut, ExceptionBitExtendido, PCSource, MuxPCSourceOut); //depos faï¿½o essses
+MuxPCSrc MuxPCSource(
+    RegAOut, 
+    AluResult, 
+    JumpAddress, 
+    RegAluOutOut, 
+    RegEPCOut, 
+    ExceptionBitExtendido, 
+    PCSource, 
+    MuxPCSourceOut
+); 
 
-MuxExcp MuxExceptionsCtrl(ExceptionsCtrl, MuxExceptionsCtrlOut);
+MuxExcp MuxExceptionsCtrl(
+    ExceptionsCtrl, 
+    MuxExceptionsCtrlOut
+);
 
-MuxShiftSrc MuxShiftSrc(RegAOut, RegBOut, ShiftSrc, MuxShiftSrcOut);
+MuxShiftSrc MuxShiftSrc(
+    RegAOut, 
+    RegBOut, 
+    ShiftSrc, 
+    MuxShiftSrcOut
+);
 
-MuxShiftAmt MuxShiftAmt(RegBOutCortado, Shamt, RegMDROut[4:0], ShiftAmt, MuxShiftAmtOut);
+MuxShiftAmt MuxShiftAmt(
+    RegBOutCortado, 
+    Shamt, 
+    RegMDROut[4:0], 
+    ShiftAmt, 
+    MuxShiftAmtOut
+);
 
-MuxMemToReg MuxMemToReg(LTExtendido, LSControlOut, RegDeslocOut, RegHIOut, RegLOOut, RegBOut, RegAOut, RegAluOutOut, OffsetExtendidoLeft2, OffsetExtendidoLeft16, MemToReg, MuxMemToRegOut);
+MuxMemToReg MuxMemToReg(
+    LTExtendido, 
+    LSControlOut, 
+    RegDeslocOut, 
+    RegHIOut, 
+    RegLOOut, 
+    RegBOut, 
+    RegAOut, 
+    RegAluOutOut, 
+    OffsetExtendidoLeft2, 
+    OffsetExtendidoLeft16, 
+    MemToReg, 
+    MuxMemToRegOut
+);
 
-MuxHI MuxHICtrl(DivCtrlHIOut, MultCtrlHIOut, HICtrl, MuxHICtrlOut);
+MuxHI MuxHICtrl(
+    DivCtrlHIOut, 
+    MultCtrlHIOut, 
+    HICtrl, 
+    MuxHICtrlOut
+);
 
-MuxLO MuxLOCtrl(DivCtrlLOOut, MultCtrlLOOut, LOCtrl, MuxLOCtrlOut);
+MuxLO MuxLOCtrl(
+    DivCtrlLOOut, 
+    MultCtrlLOOut, 
+    LOCtrl, 
+    MuxLOCtrlOut
+);
 
-LoadSize LS(RegMDROut, LSControl, LSControlOut);
+LoadSize LS(
+    RegMDROut, 
+    LSControl, 
+    LSControlOut
+);
 
-StoreSize VM(.RegBOut(RegBOut), .RegMDROut(RegMDROut), .VMCtrl(VMControl), .VMCtrlOut(VMControlOut));
+StoreSize VM(
+    .RegBOut(RegBOut), 
+    .RegMDROut(RegMDROut), 
+    .VMCtrl(VMControl), 
+    .VMCtrlOut(VMControlOut)
+);
 
-Mult Mult(RegAOut, RegBOut, clock, reset, MultCtrl, MultDone, MultCtrlHIOut, MultCtrlLOOut);
+Mult Mult(
+    RegAOut, 
+    RegBOut, 
+    clock, 
+    reset, 
+    MultCtrl, 
+    MultDone, 
+    MultCtrlHIOut, 
+    MultCtrlLOOut
+);
 
-Div Div(RegAOut, RegBOut, clock, reset, DivCtrl, DivDone, Div0, DivCtrlHIOut, DivCtrlLOOut);
+Div Div(
+    RegAOut, 
+    RegBOut, 
+    clock, 
+    reset, 
+    DivCtrl, 
+    DivDone, 
+    Div0, 
+    DivCtrlHIOut, 
+    DivCtrlLOOut
+);
 
 endmodule
